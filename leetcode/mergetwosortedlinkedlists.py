@@ -14,31 +14,23 @@ class Solution:
         :type l2: ListNode
         :rtype: ListNode
         """
-        if not l1:
-            return l2
-        if not l2:
-            return l1
-        if l1.val < l2.val:
-            newList = ListNode(l1.val)
-            l1 = l1.next
-        else:
-            newList = ListNode(l2.val)
-            l2 = l2.next
+        if not (l1 and l2):
+            return l1 or l2
+
+        newList = ListNode(-42)
         prior = newList
         
         while l1 and l2:
             if l1.val < l2.val:
-                prior.next = ListNode(l1.val)
+                val = l1.val
                 l1 = l1.next
             else:
-                prior.next = ListNode(l2.val)
+                val = l2.val
                 l2 = l2.next
                 
+            prior.next = ListNode(val)                
             prior = prior.next
 
-        if l1:
-            prior.next = l1
-        else:
-            prior.next = l2
+        prior.next = l1 or l2
 
-        return newList
+        return newList.next
