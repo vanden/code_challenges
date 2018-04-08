@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+#https://leetcode.com/problems/valid-parentheses/description/
 class Solution:
     def isValid(self, s):
         """
