@@ -11,6 +11,8 @@ class Solution:
         """
         maxLen = 0
         for start in range(len(string)):
+            if (len(string) - start) < maxLen:
+                return maxLen
             index = start
             parenCount = 0
             while index < len(string):
