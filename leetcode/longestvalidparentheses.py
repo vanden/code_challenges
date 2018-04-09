@@ -2,23 +2,22 @@
 
 #https://leetcode.com/problems/longest-valid-parentheses/description/
 
-# I believe that this works, but it times out on long inputs. It had 216 / 229 test cases passed before it timed out.
-
+# Still too slow. Now, pass 217/229 cases.
 class Solution:
     def longestValidParentheses(self, s):
         """
         :type s: str
         :rtype: int
         """
-        if self.isBalanced(s):
-            return len(s)
-        substrings = self.getSubstrings(s)
-        substrings = sorted(substrings, key=lambda x: -len(x))
-        for sstring in substrings:
-            if len(sstring) % 2:
-                continue
-            if self.isBalanced(sstring):
-                return len(sstring)
+        # Restrict to substrings of even length as only they can be valid.
+        startLength = int(len(s)/2) * 2
+
+        for length in range(startLength, 0, -2):
+
+            for start in range(0,len(s)-length+1):
+                substring = s[start:start+length]
+                if self.isBalanced(substring):
+                    return len(substring)
         return 0
 
     def isBalanced(self, s):
@@ -33,34 +32,3 @@ class Solution:
                 if last != '(':
                     return False
         return len(stack) == 0
-
-    
-
-    def getSubstrings(self, s):
-
-        if len(s) == 0:
-            return ['']
-        elif len(s) == 1:
-            return ['', s]
-        seen = set()
-
-        for length in range(len(s), 0, -1):
-            for start in range(len(s)):
-                if start + length > len(s):
-                    break
-                sstring = s[start:start + length]
-                if sstring in seen:
-                    continue
-                seen.add(sstring)
-                yield sstring
-                               
-        
-# s = Solution()
-# t = ")(((((()())()()))()(()))("
-# print(s.longestValidParentheses(t))
-
-#t = 'ababab'
-# for ss in s.getSubstrings(t):
-#     print(ss)
-
-    
