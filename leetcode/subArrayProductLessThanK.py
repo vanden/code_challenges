@@ -11,14 +11,15 @@ class Solution:
         :rtype: int
         """
         count = 0
-        for i in range(len(nums)):
-            product = float("-inf")
-            for j in range(i+1, len(nums)+1):
-                product = reduce(lambda x,y: x*y, nums[i:j])
-                if product < k:
-                    count += 1
-                else:
+        for startIdx in range(len(nums)):
+            offset = 0
+            product = nums[startIdx]
+            while product < k:                
+                offset += 1
+                count += 1
+                if startIdx + offset >= len(nums):
                     break
+                product = product * nums[startIdx + offset]
         return count
 
 
