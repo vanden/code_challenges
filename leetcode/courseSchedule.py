@@ -13,40 +13,28 @@ class Solution:
             return True
         if not prerequisites:
             return True
-        courses = list(range(numCourses))
+        courses = set(range(numCourses))
         intro_courses = set(courses)
         graph = {}
         for course in courses:
-            graph[course] = []
+            graph[course] = set()
 
         for course, prereq in prerequisites:
             intro_courses.discard(course)
-            graph[prereq].append(course)
+            graph[prereq].add(course)
 
-        print(graph, "Graph")
+        reachable = set().union(intro_courses)
 
-        # Intro courses have no prereqs
-        to_explore = intro_courses
-
-        print(courses)
-        print(to_explore, "To Explore")
-
-        reachable = []
-        explored = set()
-
-        while to_explore:
-            current_course = to_explore.pop()
-            print(current_course)
-            if current_course in explored:
-                print('NO')
-                continue
-            reachable.append(current_course)
-            explored.add(current_course)
-            for course in graph[current_course]:
-                to_explore.add(course)
-            print(reachable)
-            print(to_explore)
-        return set(reachable) == set(courses)
+        changed = True
+        while changed:
+            changed = False
+            not_reached = courses.difference(reachable)
+            
+            for course in not_reached:
+                if graph[course].issubset(reachable):
+                    changed = True
+                    reachable.add(course)
+        return reachable == courses
 
 
 s = Solution()
