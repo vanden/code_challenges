@@ -1,10 +1,12 @@
 # https://leetcode.com/problems/sqrtx/description/
 
+import math
+
 class Solution:
     def mySqrt(self, x):
         """
         :type x: int
         :rtype: int
         """
-        return int(x**0.5)
+        return int(math.sqrt(x))
         
