@@ -9,35 +9,20 @@ class Solution:
         :type n: int
         :rtype: void Do not return anything, modify nums1 in-place instead.
         """
-        n1 = list(reversed(nums1[:m]))
-        nums2 = list(reversed(nums2[:n]))
+        n1Index = 0
+        while len(nums1) > m:
+            nums1.pop()
+        for num in nums2:
 
-        nums1.clear()
-
-        while n1 and nums2:
-            print(n1)
-            print(nums2)
-            if n1[-1] < nums2[-1]:
-                nums1.append(n1.pop())
-                print("n1")
+            while n1Index < len(nums1) and nums1[n1Index] <= num:
+                n1Index += 1
+            if n1Index > len(nums1):
+                nums1.append(num)
             else:
-                nums1.append(nums2.pop())
-                print("nums2")
-        nums1.extend(n1)
-        nums1.extend(nums2)
-        print(nums1)
+                nums1.insert(n1Index, num)
+
 
 
 s = Solution()
 nums1 = [1,2,3,0,0,0]
 s.merge([1,2,3,0,0,0], 3, [2, 5, 6], 3)
-print(nums1)
-        
-#
-# 3
-# [2,5,6]
-# 3
-# Output:
-# [1,2,2,3,6,5]
-# Expected:
-# [1,2,2,3,5,6]
