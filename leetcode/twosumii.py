@@ -7,9 +7,13 @@ class Solution:
         :type target: int
         :rtype: List[int]
         """
-        for idx, num in enumerate(numbers):
-            if target - num in numbers[idx+1:]:
-                return [idx+1, numbers[idx+1:].index(target - num) + 2 + idx]
+        nums = set(numbers)
+        for num in nums:
+            if target - num in nums:
+                low, high = (sorted([numbers.index(num) + 1, numbers.index(target - num) + 1]))
+                if low == high:
+                    high += 1
+                return [low, high]
 
 
 s = Solution()
