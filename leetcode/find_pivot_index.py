@@ -6,16 +6,20 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        # A Naive solution
+        # A less Naive solution
 
         if not nums:
             return -1
 
-        for idx, num in enumerate(nums):
-            try:
-                if sum(nums[:idx]) == sum(nums[idx+1]):
-                    return idx
-            except IndexError:
-                break
+        left_sum = 0
+        right_sum = sum(nums) - nums[0]
 
-        return -1
+        for idx, num in enumerate(nums):
+            if left_sum == right_sum:
+                return idx
+
+            left_sum += num
+            try:
+                right_sum -= nums[idx+1]
+            except IndexError:
+                return -1
