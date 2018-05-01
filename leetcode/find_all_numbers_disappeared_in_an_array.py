@@ -6,10 +6,9 @@ class Solution(object):
         :type nums: List[int]
         :rtype: List[int]
         """
-        # Likely too slow
-        missing = []
-        for i in range(1, len(nums)+1):
-            if i not in nums:
-                missing.append(i)
+        missing = list(range(1, len(nums) + 1))
 
-        return missing
+        for num in nums:
+            missing[num-1] = 0
+
+        return [m for m in missing if m]
