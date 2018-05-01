@@ -1,25 +1,25 @@
 # https://leetcode.com/problems/bulb-switcher/description/
 
+from collections import defaultdict
+
 class Solution(object):
     def bulbSwitch(self, n):
         """
         :type n: int
         :rtype: int
         """
-        # Too slow. Failed when hit n=9999
+        # Not sure this is an improvement, but still times out on same case.
         if n == 0:
             return 0
 
-        bulbs = [False] * n
+        toggle_counts = defaultdict(int)
 
         for i in range(1, n+1):
-            print(i)
             for bulbIdx in range(n):
                 if not (bulbIdx + 1) % i:
-                    bulbs[bulbIdx] = not bulbs[bulbIdx]
-            print(bulbs)
+                    toggle_counts[bulbIdx] += 1
 
-        return len([b for b in bulbs if b])
+        return len([c for c in toggle_counts.values() if c%2])
 
 
 s = Solution()
