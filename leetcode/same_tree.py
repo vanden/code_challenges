@@ -12,9 +12,7 @@ class Solution:
     def isSameTree(self, p, q):
         if not (p or q):
             return True
-        if not (p and q) or (p.val != q.val):
-            return False
-        if not (self.isSameTree(p.left, q.left) and
-                self.isSameTree(p.right, q.right)):
-            return False
-        return True
+        if (p and q) and (p.val == q.val):
+            return (self.isSameTree(p.left, q.left) and
+                    self.isSameTree(p.right, q.right))
+        return False
