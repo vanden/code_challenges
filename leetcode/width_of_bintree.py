@@ -16,7 +16,7 @@ class Solution:
             for node in current:
                 if node:
                     levelVals.append(node.val)
-                    toExplore.extend([n for n in [node.left, node.right]])
+                    toExplore.extend([node.left, node.right])
                 else:
                     if levelVals:
                         # Don't put Nones in front as they aren't spacers
