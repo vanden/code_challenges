@@ -43,3 +43,26 @@ class Solution:
         root.left = self.trimBST(root.left, L, R)
 
         return root
+
+# Simpler but much slower (72ms beating 52.44%):
+# class Solution:
+#     def trimBST(self, root, L, R):
+#         """
+#         :type root: TreeNode
+#         :type L: int
+#         :type R: int
+#         :rtype: TreeNode
+#         """
+#         if not root:
+#             return root
+
+#         root.left = trimBST(root.left, L, R)
+#         root.right = trimBST(root.right, L, R)
+
+#         if root.val < L:
+#             return root.right
+
+#         if root.val > R:
+#             return root.left
+
+#         return root
