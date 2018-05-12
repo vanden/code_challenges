@@ -6,19 +6,17 @@
 # still retain a reference, so there was a new O(n) memory allocation.
 
 
+
 class Solution:
     def maximumProduct(self, nums):
         """
         :type nums: List[int]
         :rtype: int
         """
-        firsts = sorted(nums[0:3])
-        max1, max2, max3 = firsts[::-1]
-        min1, min2 = firsts[0:2]
+        max1, max2, max3 = float('-inf'), float('-inf'), float('-inf')
+        min1, min2 = float('inf'), float('inf')
 
-        for idx, num in enumerate(nums):
-            if idx < 3:
-                continue
+        for num in nums:
             if num < min2 and num >= min1:
                 min2 = num
             elif num < min1:
