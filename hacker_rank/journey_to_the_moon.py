@@ -4,119 +4,25 @@ import time
 from collections import defaultdict
 from functools import wraps
 
-def timing(func):
-    @wraps(func)
-    def wrap(*args):
-        start = time.perf_counter()
-#        start = time.time()
-        result = func(*args)
-        end = time.perf_counter()
-#        end = time.time()
-        print(end - start, func.__name__)
-        return result
-    return wrap
+# Prior commits in the repo show several versions in quest for speed-up
 
-
-
-def journeyToMoonSlow(n, astronauts):
-    # Times out on case 11
-    #
-    # 3-4 times as long is spent in getCountryCounts as spent in
-    # countPairs. Which is a relief, as I can see a number of ways to chop
-    # time from getCountryCounts, but don't have any good ideas right now for
-    # countPairs.
+def journeyToMoon(n, astronauts):
     counts = getCountryCounts(n, astronauts)
     pairCount = countPairs(counts)
     return pairCount
 
-@timing
+
 def countPairs(countryCounts):
     pairCount = 0
-    for i, v in enumerate(countryCounts):
-        for _, u in enumerate(countryCounts[i+1:]):
-            pairCount += v * u
+    tempSum = 0
+    for count in countryCounts:
+        pairCount += tempSum * count
+        tempSum += count
+
     return pairCount
 
 
-@timing
 def getCountryCounts(n, astronauts):
-    nodes = []
-    classes = defaultdict(set)
-    for i in range(n):
-        nodes.append(Node(i))
-
-    for first, second in astronauts:
-        nodes[first].addEdge(second)
-        nodes[second].addEdge(first)
-
-    queue = []
-    for i in range(n):
-        if not nodes[i].explored:
-            classes[i].add(i)
-            queue.append(nodes[i])
-            nodes[i].explored = True
-            while queue:
-                current = queue.pop()
-                current.explored = True
-                for edge in current.edges:
-                    if not nodes[edge].explored:
-                        queue.append(nodes[edge])
-                        classes[i].add(edge)
-    counts = [len(s) for s in classes.values()]
-
-    return counts
-
-class Node():
-    def __init__(self, index):
-        self.index = index
-        self.edges = []
-        self.explored = False
-    def addEdge(self, toIndex):
-        self.edges.append(toIndex)
-    def __repr__(self):
-        return "Node(%s) with edges: %s and Explored: %s" %(
-            self.index, self.edges, self.explored)
-
-################################################################
-
-def journeyToMoonThird(n, astronauts):
-    # Still times out on case 11, but about a 100% speed up on getCountryCounts.
-
-    # However, profiling shows it is now countPairs that is taking all the
-    # time. And, the shape of the case shows why: pointless iteration over
-    # endless tokens of 1. That should be an easy fix.
-
-    # Except for the fact that nChooseTwo isn't feasible when n is 99996!
-    counts = getCountryCountsTry3(n, astronauts)
-    pairCount = countPairsTry3(counts)
-    return pairCount
-
-@timing
-def countPairsTry3(countryCounts):
-    pairCount = 0
-    origLen = len(countryCounts)
-    countryCounts = [n for n in countryCounts if n != 1]
-    onesCount = origLen - len(countryCounts)
-    for i, v in enumerate(countryCounts):
-        for _, u in enumerate(countryCounts[i+1:]):
-            pairCount += v * u
-        pairCount += v * onesCount
-
-    pairCount += nChooseTwo(onesCount)
-    return pairCount
-
-def factorial(n):
-    print(n)
-    if n < 2:
-        return 1
-    return n * factorial(n-1)
-
-
-def nChooseTwo(n):
-    return factorial(n) / (2 * factorial(n-2))
-
-@timing
-def getCountryCountsTry3(n, astronauts):
     explored = set()
     edges = defaultdict(list)
     queue = []
@@ -125,7 +31,6 @@ def getCountryCountsTry3(n, astronauts):
     for toNode, fromNode in astronauts:
         edges[fromNode].append(toNode)
         edges[toNode].append(fromNode)
-#    print(sum(len(edges[e]) for e in edges))
 
     for i in range(n):
         if i in explored:
@@ -146,22 +51,22 @@ def getCountryCountsTry3(n, astronauts):
     return counts
 
 
+# Needs 100
+case2 = [
+    (0, 11), (2, 4), (2, 95), (3, 48), (4, 85), (4, 95), (5, 67), (5, 83),
+    (5, 42), (6, 76), (9, 31), (9, 22), (9, 55), (10, 61), (10, 38),
+    (11, 96), (11, 41), (12, 60), (12, 69), (14, 80), (14, 99), (14, 46),
+    (15, 42), (15, 75), (16, 87), (16, 71), (18, 99), (18, 44), (19, 26),
+    (19, 59), (19, 60), (20, 89), (21, 69), (22, 96), (22, 60), (23, 88),
+    (24, 73), (27, 29), (30, 32), (31, 62), (32, 71), (33, 43), (33, 47),
+    (35, 51), (35, 75), (37, 89), (37, 95), (38, 83), (39, 53), (41, 84),
+    (42, 76), (44, 85), (45, 47), (46, 65), (47, 49), (47, 94), (50, 55),
+    (51, 99), (53, 99), (56, 78), (66, 99), (71, 78), (73, 98), (76, 88),
+    (78, 97), (80, 90), (83, 95), (85, 92), (88, 99), (88, 94)]
 
-# case2 = [
-#     (0, 11), (2, 4), (2, 95), (3, 48), (4, 85), (4, 95), (5, 67), (5, 83),
-#     (5, 42), (6, 76), (9, 31), (9, 22), (9, 55), (10, 61), (10, 38),
-#     (11, 96), (11, 41), (12, 60), (12, 69), (14, 80), (14, 99), (14, 46),
-#     (15, 42), (15, 75), (16, 87), (16, 71), (18, 99), (18, 44), (19, 26),
-#     (19, 59), (19, 60), (20, 89), (21, 69), (22, 96), (22, 60), (23, 88),
-#     (24, 73), (27, 29), (30, 32), (31, 62), (32, 71), (33, 43), (33, 47),
-#     (35, 51), (35, 75), (37, 89), (37, 95), (38, 83), (39, 53), (41, 84),
-#     (42, 76), (44, 85), (45, 47), (46, 65), (47, 49), (47, 94), (50, 55),
-#     (51, 99), (53, 99), (56, 78), (66, 99), (71, 78), (73, 98), (76, 88),
-#     (78, 97), (80, 90), (83, 95), (85, 92), (88, 99), (88, 94)]
 
 
-
-# # 500
+# Needs 500
 case3 = [
     (1, 426), (1, 117), (2, 261), (3, 493), (4, 282), (4, 164), (4, 455),
     (5, 116), (6, 139), (7, 288), (7, 428), (8, 71), (10, 357), (10, 55),
@@ -251,12 +156,6 @@ case3 = [
 # Needs  100000
 case11 = [(1, 2), (3, 4)]
 
-def report(i, s):
-    if i == 42:
-        print(i, s)
-
-print(journeyToMoonSlow(500, case3))
-print(journeyToMoonThird(500, case3))
-
-#print(journeyToMoonSlow(100000, case11))
-print(journeyToMoonThird(100000, case11))
+print(journeyToMoon(500, case3))
+print(journeyToMoon(100, case2))
+print(journeyToMoon(100000, case11))
