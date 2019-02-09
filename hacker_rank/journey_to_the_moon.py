@@ -79,27 +79,44 @@ class Node():
 
 ################################################################
 
-def journeyToMoonSecond(n, astronauts):
+def journeyToMoonThird(n, astronauts):
     # Still times out on case 11, but about a 100% speed up on getCountryCounts.
 
     # However, profiling shows it is now countPairs that is taking all the
     # time. And, the shape of the case shows why: pointless iteration over
     # endless tokens of 1. That should be an easy fix.
-    counts = getCountryCountsTry2(n, astronauts)
-    pairCount = countPairsTry2(counts)
+
+    # Except for the fact that nChooseTwo isn't feasible when n is 99996!
+    counts = getCountryCountsTry3(n, astronauts)
+    pairCount = countPairsTry3(counts)
     return pairCount
 
 @timing
-def countPairsTry2(countryCounts):
+def countPairsTry3(countryCounts):
     pairCount = 0
+    origLen = len(countryCounts)
+    countryCounts = [n for n in countryCounts if n != 1]
+    onesCount = origLen - len(countryCounts)
     for i, v in enumerate(countryCounts):
         for _, u in enumerate(countryCounts[i+1:]):
             pairCount += v * u
+        pairCount += v * onesCount
+
+    pairCount += nChooseTwo(onesCount)
     return pairCount
 
+def factorial(n):
+    print(n)
+    if n < 2:
+        return 1
+    return n * factorial(n-1)
+
+
+def nChooseTwo(n):
+    return factorial(n) / (2 * factorial(n-2))
 
 @timing
-def getCountryCountsTry2(n, astronauts):
+def getCountryCountsTry3(n, astronauts):
     explored = set()
     edges = defaultdict(list)
     queue = []
@@ -239,7 +256,7 @@ def report(i, s):
         print(i, s)
 
 print(journeyToMoonSlow(500, case3))
-print(journeyToMoonSecond(500, case3))
+print(journeyToMoonThird(500, case3))
 
-print(journeyToMoonSlow(100000, case11))
-print(journeyToMoonSecond(100000, case11))
+#print(journeyToMoonSlow(100000, case11))
+print(journeyToMoonThird(100000, case11))
