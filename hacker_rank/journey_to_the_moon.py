@@ -27,6 +27,7 @@ def journeyToMoonSlow(n, astronauts):
     # countPairs.
     counts = getCountryCounts(n, astronauts)
     pairCount = countPairs(counts)
+    return pairCount
 
 @timing
 def countPairs(countryCounts):
@@ -78,8 +79,55 @@ class Node():
 
 ################################################################
 
-# def journeyToMoonSecond(n, astronauts):
-#     pass
+def journeyToMoonSecond(n, astronauts):
+    # Still times out on case 11, but about a 100% speed up on getCountryCounts.
+
+    # However, profiling shows it is now countPairs that is taking all the
+    # time. And, the shape of the case shows why: pointless iteration over
+    # endless tokens of 1. That should be an easy fix.
+    counts = getCountryCountsTry2(n, astronauts)
+    pairCount = countPairsTry2(counts)
+    return pairCount
+
+@timing
+def countPairsTry2(countryCounts):
+    pairCount = 0
+    for i, v in enumerate(countryCounts):
+        for _, u in enumerate(countryCounts[i+1:]):
+            pairCount += v * u
+    return pairCount
+
+
+@timing
+def getCountryCountsTry2(n, astronauts):
+    explored = set()
+    edges = defaultdict(list)
+    queue = []
+    classes = defaultdict(set)
+
+    for toNode, fromNode in astronauts:
+        edges[fromNode].append(toNode)
+        edges[toNode].append(fromNode)
+#    print(sum(len(edges[e]) for e in edges))
+
+    for i in range(n):
+        if i in explored:
+            continue
+        classes[i].add(i)
+        queue.append(i)
+        explored.add(i)
+
+        while queue:
+            current = queue.pop()
+            explored.add(current)
+            for toNode in edges[current]:
+                if toNode not in explored:
+                    queue.append(toNode)
+                    classes[i].add(toNode)
+
+    counts = [len(s) for s in classes.values()]
+    return counts
+
 
 
 # case2 = [
@@ -183,5 +231,15 @@ case3 = [
     (438, 453), (445, 491), (456, 465), (456, 476), (458, 470), (466, 488)
 ]
 
+# Needs  100000
+case11 = [(1, 2), (3, 4)]
 
-journeyToMoonSlow(500, case3)
+def report(i, s):
+    if i == 42:
+        print(i, s)
+
+print(journeyToMoonSlow(500, case3))
+print(journeyToMoonSecond(500, case3))
+
+print(journeyToMoonSlow(100000, case11))
+print(journeyToMoonSecond(100000, case11))
