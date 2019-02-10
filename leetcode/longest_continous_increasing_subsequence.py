@@ -7,7 +7,7 @@
 # Longest Continuous Increasing Subsequence.
 
 
-class Solution:
+class Solution1:
     def findLengthOfLCIS(self, nums):
         """
         :type nums: List[int]
@@ -34,6 +34,36 @@ class Solution:
                 current = 1
             last = num
         return longest
+
+
+# Runtime: 40 ms, faster than 99.41% of Python3 online submissions for Longest
+# Continuous Increasing Subsequence.
+
+# Memory Usage: 7.6 MB, less than 93.91% of Python3 online submissions for
+# Longest Continuous Increasing Subsequence.
+
+class Solution:
+    def findLengthOfLCIS(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) < 2:
+            return len(nums)
+
+        longest = 1
+        current = 1
+        last = nums[0]
+        for _, num in enumerate(nums[1:]):
+            if num > last:
+                current += 1
+                longest = max(longest, current)
+            else:
+                current = 1
+            last = num
+        return longest
+
+
 
 cases = [
     ([1,3,5,7], 4),
