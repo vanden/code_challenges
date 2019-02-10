@@ -16,7 +16,7 @@
 # So, slow, but relatively little memory used. Obviously, trade space for time
 # and memoize rindex results
 
-class Solution:
+class Solution1:
 
     def partitionLabels(self, string):
         chunkLengths = []
@@ -34,8 +34,34 @@ class Solution:
         return chunkLengths
 
 
+class Solution:
+
+    def partitionLabels(self, string):
+        chunkLengths = []
+        i = 0
+        lastIndex = -1
+        memo = {}
+
+        def getRIndex(c):
+            if not c in memo:
+                memo[c] = string.rindex(c)
+            return memo[c]
+
+
+        while i < len(string):
+            endIdx = string.rindex(string[i])
+            j = max(getRIndex(c) for c in string[lastIndex+1:endIdx+1])
+            if i == j:
+                chunkLengths.append(i-lastIndex)
+                lastIndex = i
+                i += 1
+            else:
+                i += 1
+        return chunkLengths
+
+
 
 s = Solution()
-s.partitionLabels("ababcbacadefegdehijhklij")
-s.partitionLabels("avbabcbacadedehijhklvij")
-s.partitionLabels("avbabvij")
+print(s.partitionLabels("ababcbacadefegdehijhklij"))
+print(s.partitionLabels("avbabcbacadedehijhklvij"))
+print(s.partitionLabels("avbabvij"))
