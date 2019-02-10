@@ -33,8 +33,15 @@ class Solution1:
                 i += 1
         return chunkLengths
 
+# Runtime: 344 ms, faster than 2.23% of Python3 online submissions for
+# Partition Labels.
 
-class Solution:
+# Memory Usage: 6.4 MB, less than 94.84% of Python3 online submissions for
+# Partition Labels.
+
+# Barely made a difference
+
+class Solution2:
 
     def partitionLabels(self, string):
         chunkLengths = []
@@ -60,8 +67,37 @@ class Solution:
         return chunkLengths
 
 
+class Solution:
+
+    def partitionLabels(self, string):
+        chunkLengths = []
+        i = 0
+        lastIndex = -1
+        memo = {}
+
+        def getRIndex(c):
+            if not c in memo:
+                memo[c] = string.rindex(c)
+            return memo[c]
+
+
+        while i < len(string):
+            endIdx = string.rindex(string[i])
+            j = max(getRIndex(c) for c in string[lastIndex+1:endIdx+1])
+            if i == j:
+                chunkLengths.append(i-lastIndex)
+                lastIndex = i
+                i += 1
+            else:
+                i = j
+        return chunkLengths
+
+
+
 
 s = Solution()
 print(s.partitionLabels("ababcbacadefegdehijhklij"))
 print(s.partitionLabels("avbabcbacadedehijhklvij"))
 print(s.partitionLabels("avbabvij"))
+print(s.partitionLabels("eaaaabaaec"))
+print(s.partitionLabels("ababcbacadefegdehijhklij"))
