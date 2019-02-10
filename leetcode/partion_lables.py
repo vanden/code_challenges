@@ -66,8 +66,16 @@ class Solution2:
                 i += 1
         return chunkLengths
 
+# Runtime: 48 ms, faster than 76.80% of Python3 online submissions for
+# Partition Labels.
 
-class Solution:
+#Memory Usage: 6.4 MB, less than 99.53% of Python3 online submissions for
+#Partition Labels.
+
+# A trivial change (setting i = j rather than i += 1 in the else clause) made
+# a huge difference.
+
+class Solution3:
 
     def partitionLabels(self, string):
         chunkLengths = []
@@ -92,7 +100,62 @@ class Solution:
                 i = j
         return chunkLengths
 
+# Runtime: 44 ms, faster than 94.10% of Python3 online submissions for
+# Partition Labels.
 
+# Memory Usage: 6.5 MB, less than 67.61% of Python3 online submissions for
+# Partition Labels.
+
+# I'm surprised the dict comp in place of a function call didn't help the
+# speed, more.
+
+class Solution4:
+
+    def partitionLabels(self, string):
+        chunkLengths = []
+        i = 0
+        lastIndex = -1
+        memo = {c: i for i, c in enumerate(string)}
+
+        while i < len(string):
+            endIdx = string.rindex(string[i])
+            j = max(memo[c] for c in string[lastIndex+1:endIdx+1])
+            if i == j:
+                chunkLengths.append(i-lastIndex)
+                lastIndex = i
+                i += 1
+            else:
+                i = j
+        return chunkLengths
+
+
+# Runtime: 44 ms, faster than 94.10% of Python3 online submissions for
+# Partition Labels.
+
+# Memory Usage: 6.5 MB, less than 58.22% of Python3 online submissions for
+# Partition Labels.
+
+# Very surprised that removing the str.rindex call in the while loop in favour
+# of the memoized data didn't help at all.
+
+class Solution:
+
+    def partitionLabels(self, string):
+        chunkLengths = []
+        i = 0
+        lastIndex = -1
+        memo = {c: i for i, c in enumerate(string)}
+
+        while i < len(string):
+            endIdx = memo[string[i]]
+            j = max(memo[c] for c in string[lastIndex+1:endIdx+1])
+            if i == j:
+                chunkLengths.append(i-lastIndex)
+                lastIndex = i
+                i += 1
+            else:
+                i = j
+        return chunkLengths
 
 
 s = Solution()
@@ -100,4 +163,3 @@ print(s.partitionLabels("ababcbacadefegdehijhklij"))
 print(s.partitionLabels("avbabcbacadedehijhklvij"))
 print(s.partitionLabels("avbabvij"))
 print(s.partitionLabels("eaaaabaaec"))
-print(s.partitionLabels("ababcbacadefegdehijhklij"))
