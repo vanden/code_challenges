@@ -1,6 +1,6 @@
 # https://leetcode.com/problems/linked-list-cycle/submissions/
 
-# Runtime: 44 ms, faster than 94.95% of Python online submissions for Linked
+# Runtime: 40 ms, faster than 100.00% of Python online submissions for Linked
 # List Cycle.
 
 # Memory Usage: 16.2 MB, less than 82.22% of Python online submissions for
@@ -22,13 +22,12 @@ class Solution(object):
             return False
         tortise = head
         hare = head
-        while True:
+        while hare and hare.next:
             hare = hare.next
+            if hare is None:
+                return False
             tortise = tortise.next
-            if hare is None:
-                return False
             hare = hare.next
-            if hare is None:
-                return False
             if hare is tortise:
                 return True
+        return False
