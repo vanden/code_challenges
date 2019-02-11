@@ -59,57 +59,6 @@ class RandomizedCollection:
         while choice is None:
             choice = random.choice(self.data)
         return choice
-# import random
-# from collections import defaultdict
-
-# class RandomizedCollection:
-
-#     def __init__(self):
-#         """
-#         Initialize your data structure here.
-#         """
-#         self.data = []
-#         self.positions = defaultdict(list)
-#         self.counts = defaultdict(int)
-
-#     def __repr__(self):
-#         return("RandomizedCollection(data: %s, positions: %s)" %(self.data, self.positions))
-
-#     def insert(self, val: 'int') -> 'bool':
-#         """
-#         Inserts a value to the collection. Returns true if the collection did
-#         not already contain the specified element.
-#         """
-
-#         novel = not val in self.positions
-
-#         self.data.append(val)
-#         self.positions[val].append(len(self.data) - 1)
-#         return novel
-
-#     def remove(self, val: 'int') -> 'bool':
-#         """
-#         Removes a value from the collection. Returns true if the collection
-#         contained the specified element.
-#         """
-#         if not val in self.positions:
-#             return False
-
-#         valPosition = self.positions[val].pop()
-#         self.data[valPosition] = None
-
-#         last = self.data[-1]
-
-#         return True
-
-#     def getRandom(self) -> 'int':
-#         """
-#         Get a random element from the collection.
-#         """
-#         choice = None
-#         while choice is None:
-#             choice = random.choice(self.data)
-#         return choice
 
 
 # ["RandomizedCollection","insert","insert","insert","insert","insert","remove","remove","remove","remove"]
