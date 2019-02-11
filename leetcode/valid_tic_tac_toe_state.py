@@ -7,7 +7,20 @@
 # I was already thinking that this was not elegant. To deal with that on the
 # present approach is going to have to be even worse!
 
-class Solution(object):
+# Seems I was wrong. A count of xWon did it. But, this is not elegant!
+
+# And, I still hadn't attended to the sort of case as represented by
+# (["OXX","XOX","OXO"], False)
+
+# Runtime: 24 ms, faster than 37.76% of Python online submissions for Valid
+# Tic-Tac-Toe State.
+
+# Memory Usage: 7 MB, less than 35.48% of Python online submissions for Valid
+# Tic-Tac-Toe State.
+
+# That was beastly!
+
+class Solution():
     def validTicTacToe(self, board):
         """
         :type board: List[str]
@@ -20,7 +33,7 @@ class Solution(object):
         if oCount > xCount or ((xCount - oCount) > 1):
             return False
 
-        xWon = False
+        xWon = 0
 
         modBoard = []
         for row in board:
@@ -41,10 +54,12 @@ class Solution(object):
             if rowSum in [3, -3]:
                 wins += 1
                 if sum(row) == 3:
-                    xWon = True
+                    xWon += 1
 
         if wins > 1:
-            # Not clear the early bail is worth it
+            # Not clear the early bail is worth it. But, safe as it cannot be
+            # at this stage (only having examined horizontals) that X has two
+            # legal three-in-a-rows.
             return False
 
         for colIdx in (0, 1, 2):
@@ -54,38 +69,40 @@ class Solution(object):
             if colSum in (3, -3):
                 wins += 1
                 if colSum == 3:
-                    xWon = True
-
-        if wins > 1:
-            # Not clear the early bail is worth it
-            return False
+                    xWon += 1
 
         diagsum = sum([modBoard[i][i] for i in (0, 1, 2)])
         if diagsum in (3, -3):
             wins += 1
             if diagsum == 3:
-                xWon = True
+                xWon += 1
         diagsum = sum([modBoard[r][c] for r, c in [(0, 2), (1, 1), (2, 0)]])
         if diagsum in (3, -3):
             wins += 1
             if diagsum == 3:
-                xWon = True
+                xWon += 1
 
-        if xWon and xCount == oCount:
+        if xWon:
+            if xCount == oCount or xWon > 2:
+                return False
+            return True
+
+        if wins and (xCount > oCount) and not xWon:
             return False
 
         return wins < 2
 
 
 cases = [
-    # (["XXX", "XOO", "OO "], False),
-    # (["XO ", "XO ", "XO "], False),
-    # (["   ", "   ", "   "], True),
-    # (["O  ", "   ", "   "], False),
-    # (["XOX", " X ", "   "], False),
-    # (["XXX", "   ", "OOO"], False),
-    # (["XOX", "O O", "XOX"], True),
-    (["XXX", "OOX", "OOX"], True)
+    (["XXX", "XOO", "OO "], False),
+    (["XO ", "XO ", "XO "], False),
+    (["   ", "   ", "   "], True),
+    (["O  ", "   ", "   "], False),
+    (["XOX", " X ", "   "], False),
+    (["XXX", "   ", "OOO"], False),
+    (["XOX", "O O", "XOX"], True),
+    (["XXX", "OOX", "OOX"], True),
+    (["OXX","XOX","OXO"], False)
 ]
 
 
