@@ -1,5 +1,12 @@
 # https://leetcode.com/problems/insert-delete-getrandom-o1-duplicates-allowed/
 
+# Runtime: 88 ms, faster than 99.75% of Python3 online submissions for Insert
+# Delete GetRandom O(1) - Duplicates allowed.
+
+# Memory Usage: 12.2 MB, less than 78.30% of Python3 online submissions for
+# Insert Delete GetRandom O(1) - Duplicates allowed.
+
+
 import random
 from collections import defaultdict
 
