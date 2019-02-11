@@ -14,7 +14,7 @@ class RandomizedCollection:
         self.counts = defaultdict(int)
 
     def __repr__(self):
-        return("RandomizedCollection(data: %s, positions: %s)" %(self.data, self.positions))
+        return "RandomizedCollection(data: %s, positions: %s)" %(self.data, self.positions)
 
     def insert(self, val: 'int') -> 'bool':
         """
