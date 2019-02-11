@@ -22,7 +22,7 @@ class RandomizedCollection:
         not already contain the specified element.
         """
 
-        novel = not val in self.positions
+        novel = not (val in self.positions and self.positions[val])
 
         self.data.append(val)
         self.positions[val].append(len(self.data) - 1)
@@ -33,13 +33,11 @@ class RandomizedCollection:
         Removes a value from the collection. Returns true if the collection
         contained the specified element.
         """
-        if not val in self.positions:
+        if not (val in self.positions and self.positions[val]):
             return False
 
         valPosition = self.positions[val].pop()
         self.data[valPosition] = None
-
-        last = self.data[-1]
 
         return True
 
