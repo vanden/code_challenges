@@ -3,14 +3,6 @@
 import random
 from collections import defaultdict
 
-# For some reason, this example
-# ["RandomizedCollection","insert","insert","insert","getRandom","remove","getRandom"]
-# [[],[1],[1],[2],[],[1],[]]
-# runs fine locally, but on the leetcode site the line
-#    valPosition = self.positions[val].pop()
-# raises an IndexError. And, the local Python version is identical to the one on leetcode. Wat. Putting this aside, for now. Especially as I am
-# quite certain it won't work even if it runs
-
 class RandomizedCollection:
 
     def __init__(self):
@@ -61,48 +53,82 @@ class RandomizedCollection:
         return choice
 
 
-# ["RandomizedCollection","insert","insert","insert","insert","insert","remove","remove","remove","remove"]
-# [[],[4],[3],[4],[2],[4],[4],[3],[4],[4]]
+if __name__ == "__main__":
+
+    # ["RandomizedCollection","insert","insert","insert","insert","insert","remove","remove","remove","remove"]
+    # [[],[4],[3],[4],[2],[4],[4],[3],[4],[4]]
+    a = RandomizedCollection()
+    a.insert(4)
+    a.insert(3)
+    a.insert(4)
+    #print(repr(a))
+    a.insert(2)
+    a.insert(4)
+    #print(repr(a))
+    a.remove(4)
+    #print(repr(a))
+    a.remove(3)
+    #print(repr(a))
+    #print("_--------------------")
+    print(a.remove(4))
+    #print(repr(a))
+    print(a.remove(4))
+    #print(repr(a))
+    print()
 
 
-# r = RandomizedCollection()
-# r.insert(4)
-# r.insert(3)
-# r.insert(4)
-# #print(repr(r))
-# r.insert(2)
-# r.insert(4)
-# #print(repr(r))
-# r.remove(4)
-# #print(repr(r))
-# r.remove(3)
-# #print(repr(r))
-# #print("_--------------------")
-# print(r.remove(4))
-# #print(repr(r))
-# print(r.remove(4))
-# #print(repr(r))
-
-# r = RandomizedCollection()
-# r.insert(1)
-# print(repr(r))
-# r.remove(1)
-# print(repr(r))
-# r.insert(1)
-# print(repr(r))
-
-# #["RandomizedCollection","insert","remove","insert"]
-# #[[],[1],[1],[1]]
+    # #["RandomizedCollection","insert","remove","insert"]
+    # #[[],[1],[1],[1]]
+    #
+    # r = RandomizedCollection()
+    # r.insert(1)
+    # print(repr(r))
+    # r.remove(1)
+    # print(repr(r))
+    # r.insert(1)
+    # print(repr(r))
 
 
-r = RandomizedCollection()
-print(r.insert(0))
-print(r.remove(0))
-print(r.insert(-1))
-print(r.insert(0))
-print(r.getRandom())
-print(r.getRandom())
-print(r.getRandom())
-print(r.getRandom())
-#["RandomizedCollection","insert","remove","insert","remove","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom"]
-#[[],[0],[0],[-1],[0],[],[],[],[],[],[],[],[],[],[]]
+    # ["RandomizedCollection","insert","insert","insert","getRandom","remove","getRandom"]
+    # [[],[1],[1],[2],[],[1],[]]
+
+    #["RandomizedCollection","insert","remove","insert","remove","getRandom","getRandom","getRandom",
+    # "getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom"]
+    #[[],[0],[0],[-1],[0],[],[],[],[],[],[],[],[],[],[]]
+    #
+    # r = RandomizedCollection()
+    # print(r.insert(0))
+    # print(r.remove(0))
+    # print(r.insert(-1))
+    # print(r.insert(0))
+    # print(r.getRandom())
+    # print(r.getRandom())
+    # print(r.getRandom())
+    # print(r.getRandom())
+
+    print()
+    s = RandomizedCollection()
+    print(s.insert(1))
+    print(s.insert(1))
+    print(s.insert(2))
+    print(s.getRandom())
+    print(s.remove(1))
+    print(s.getRandom())
+
+
+    t = RandomizedCollection()
+    print(t.insert(0))
+    print(t.remove(0))
+    print(t.insert(-1))
+    print(t.remove(0))
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+    print(t.getRandom())
+
+    ["RandomizedCollection","insert","remove","insert", "remove", "getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom","getRandom"]
+    [[], [0], [0], [-1], [0], [], [], [], [], [], [], [], [], [], []]
