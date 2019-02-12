@@ -38,7 +38,7 @@ class Solution1:
 # Remove Duplicates from Sorted Array.
 
 
-class Solution:
+class Solution2:
     def removeDuplicates(self, nums: 'List[int]') -> 'int':
         if len(nums) < 2:
             return len(nums)
@@ -65,6 +65,32 @@ class Solution:
                 # which doesn't really make sense, either.)
                 break
         return i
+
+################
+
+# Gave up and looked at the suggested solution code. I should have listened to
+# myself "I feel like I should be able to arrange doing just a single copy."
+
+# Runtime: 60 ms, faster than 85.03% of Python3 online submissions for Remove
+# Duplicates from Sorted Array.
+
+# Memory Usage: 14.3 MB, less than 0.99% of Python3 online submissions for
+# Remove Duplicates from Sorted Array.
+
+
+class Solution:
+    def removeDuplicates(self, nums: 'List[int]') -> 'int':
+        if len(nums) < 2:
+            return len(nums)
+
+        i = 0
+
+        for j in range(1, len(nums)):
+            if nums[i] != nums[j]:
+                i += 1
+                nums[i] = nums[j]
+        print(nums, nums[:i+1])
+        return i + 1
 
 
 if __name__ == "__main__":
