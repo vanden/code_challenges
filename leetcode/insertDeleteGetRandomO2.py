@@ -66,7 +66,7 @@ class RandomizedCollection1:
 # Insert Delete GetRandom O(1) - Duplicates allowed
 
 
-class RandomizedCollection:
+class RandomizedCollection2:
 
     def __init__(self):
         """
@@ -126,6 +126,59 @@ class RandomizedCollection:
         while choice is None:
             choice = random.choice(self.data)
         return choice
+
+
+class RandomizedCollection:
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self.data = defaultdict(int)
+        self.total = 0
+
+    def __repr__(self):
+        return "RandomizedCollection(data: %s, positions: %s)" %(self.data, self.positions)
+
+
+    def insert(self, val: 'int') -> 'bool':
+        """
+        Inserts a value to the collection. Returns true if the collection did
+        not already contain the specified element.
+        """
+
+        novel = not val in self.data
+
+        self.data[val] += 1
+        self.total += 1
+        return novel
+
+
+    def remove(self, val: 'int') -> 'bool':
+        """
+        Removes a value from the collection. Returns true if the collection
+        contained the specified element.
+        """
+        if not val in self.data:
+            return False
+
+        self.data[val] -= 1
+        self.total -= 1
+        if not self.data[val]:
+            del self.data[val]
+        return True
+
+
+    def getRandom(self) -> 'int':
+        """
+        Get a random element from the collection.
+        """
+        choice = random.randint(0, self.total)
+        seen = 0
+        for k, v in self.data.items():
+            seen += v
+            if seen >= choice:
+                return k
 
 
 if __name__ == "__main__":
