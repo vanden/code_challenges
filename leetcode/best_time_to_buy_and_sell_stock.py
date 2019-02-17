@@ -1,5 +1,10 @@
-#!/usr/bin/env python3
 #https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/
+
+# Runtime: 40 ms, faster than 99.57% of Python3 online submissions for
+# Best Time to Buy and Sell Stock.
+
+# Memory Usage: 12.8 MB, less than 100.00% of Python3 online
+# submissions for Best Time to Buy and Sell Stock.
 
 
 class Solution:
@@ -8,16 +13,16 @@ class Solution:
         :type prices: List[int]
         :rtype: int
         """
-        best = float("-inf")
+        bestProfit = float("-inf")
         lowest = float("inf")
 
         for price in prices:
-            if price - lowest > best:
-                best = price - lowest
+            if price - lowest > bestProfit:
+                bestProfit = price - lowest
             if lowest > price:
                 lowest = price
 
-        return max(best, 0)
+        return max(bestProfit, 0)
 
 if __name__ == '__main__':
     s = Solution()
